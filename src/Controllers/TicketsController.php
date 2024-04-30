@@ -375,6 +375,7 @@ class TicketsController extends Controller
             }
 
             $subject = $ticket->subject;
+            $ticket->resolution = '';
             $ticket->save();
 
             session()->flash('status', trans('ticketit::lang.the-ticket-has-been-reopened', ['name' => $subject]));
