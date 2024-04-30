@@ -213,6 +213,7 @@ class TicketsController extends Controller
             'content'     => 'required|min:6',
             'priority_id' => 'required|exists:ticketit_priorities,id',
             'category_id' => 'required|exists:ticketit_categories,id',
+            'customer_id' => 'nullable',
         ]);
 
         $ticket = new Ticket();
@@ -227,6 +228,10 @@ class TicketsController extends Controller
         $ticket->status_id = Setting::grab('default_status_id');
         $ticket->user_id = auth()->user()->id;
         $ticket->autoSelectAgent();
+
+        if(isset($request->customer_id) && !empty($request->customer_id)) {
+            $ticket->customer_id = $request->customer_id;
+        }
 
         $ticket->save();
 
