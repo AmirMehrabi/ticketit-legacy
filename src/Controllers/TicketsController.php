@@ -299,7 +299,10 @@ class TicketsController extends Controller
         } else {
             $ticket->agent_id = $request->input('agent_id');
         }
-
+        if ($request->has('status') && $request->status == 'closed') {
+            $ticket->resolution = $request->resolution;
+            $ticket->completed_at = Carbon::now();
+        }
         $ticket->save();
 
         session()->flash('status', trans('ticketit::lang.the-ticket-has-been-modified'));
